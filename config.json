@@ -5,6 +5,18 @@
   "background": "",
   "accent": "#c8aa71",
   "cardHeight": 158,
+  "layout": {
+    "login": {
+      "x": 74,
+      "y": 30,
+      "scale": 1
+    },
+    "roster": {
+      "x": 5,
+      "y": 70,
+      "scale": 1
+    }
+  },
   "characters": [
     {
       "id": "ranger",
@@ -19,7 +31,34 @@
       "background": "",
       "strip": 0,
       "position": 50,
-      "enabled": true
+      "enabled": true,
+      "layout": {
+        "name": {
+          "x": 5,
+          "y": 28,
+          "scale": 1
+        },
+        "tag": {
+          "x": 5,
+          "y": 40,
+          "scale": 1
+        },
+        "hero": {
+          "x": 38,
+          "y": 12,
+          "scale": 1
+        },
+        "description": {
+          "x": 5,
+          "y": 47,
+          "scale": 1
+        },
+        "detail": {
+          "x": 5,
+          "y": 63,
+          "scale": 1
+        }
+      }
     },
     {
       "id": "knight",
@@ -34,7 +73,34 @@
       "background": "",
       "strip": 1,
       "position": 50,
-      "enabled": true
+      "enabled": true,
+      "layout": {
+        "name": {
+          "x": 5,
+          "y": 28,
+          "scale": 1
+        },
+        "tag": {
+          "x": 5,
+          "y": 40,
+          "scale": 1
+        },
+        "hero": {
+          "x": 38,
+          "y": 12,
+          "scale": 1
+        },
+        "description": {
+          "x": 5,
+          "y": 47,
+          "scale": 1
+        },
+        "detail": {
+          "x": 5,
+          "y": 63,
+          "scale": 1
+        }
+      }
     },
     {
       "id": "mage",
@@ -49,7 +115,34 @@
       "background": "",
       "strip": 2,
       "position": 50,
-      "enabled": true
+      "enabled": true,
+      "layout": {
+        "name": {
+          "x": 5,
+          "y": 28,
+          "scale": 1
+        },
+        "tag": {
+          "x": 5,
+          "y": 40,
+          "scale": 1
+        },
+        "hero": {
+          "x": 38,
+          "y": 12,
+          "scale": 1
+        },
+        "description": {
+          "x": 5,
+          "y": 47,
+          "scale": 1
+        },
+        "detail": {
+          "x": 5,
+          "y": 63,
+          "scale": 1
+        }
+      }
     },
     {
       "id": "rogue",
@@ -64,7 +157,34 @@
       "background": "",
       "strip": 3,
       "position": 50,
-      "enabled": true
+      "enabled": true,
+      "layout": {
+        "name": {
+          "x": 5,
+          "y": 28,
+          "scale": 1
+        },
+        "tag": {
+          "x": 5,
+          "y": 40,
+          "scale": 1
+        },
+        "hero": {
+          "x": 38,
+          "y": 12,
+          "scale": 1
+        },
+        "description": {
+          "x": 5,
+          "y": 47,
+          "scale": 1
+        },
+        "detail": {
+          "x": 5,
+          "y": 63,
+          "scale": 1
+        }
+      }
     },
     {
       "id": "bard",
@@ -79,7 +199,34 @@
       "background": "",
       "strip": 4,
       "position": 50,
-      "enabled": true
+      "enabled": true,
+      "layout": {
+        "name": {
+          "x": 5,
+          "y": 28,
+          "scale": 1
+        },
+        "tag": {
+          "x": 5,
+          "y": 40,
+          "scale": 1
+        },
+        "hero": {
+          "x": 38,
+          "y": 12,
+          "scale": 1
+        },
+        "description": {
+          "x": 5,
+          "y": 47,
+          "scale": 1
+        },
+        "detail": {
+          "x": 5,
+          "y": 63,
+          "scale": 1
+        }
+      }
     }
   ]
 }

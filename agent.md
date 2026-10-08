@@ -17,7 +17,9 @@
 | `scripts/model.mjs` | 默认数据、配置规范化、文本转义、资源 URL、图片显示逻辑 |
 | `scripts/settings.mjs` | `ApplicationV2` 配置窗口、账户绑定、导入导出、GM 发布 |
 | `scripts/login.mjs` | 配置加载、角色展示、原生账户联动、DOM 更新监听、回退 |
-| `styles/login.css` | 登录页布局、主题变量、角色卡、移动端与减少动画适配 |
+| `scripts/scene.mjs` | 登录页与全屏编辑器共用的场景、文本和布局渲染 |
+| `styles/scene.css` | 共用布局、主题变量、角色卡与减少动画适配 |
+| `styles/login.css` | 登录页全屏与禁用页面滚动、原生界面覆盖 |
 | `styles/settings.css` | 世界内配置窗口样式 |
 | `tools/install.mjs` | 模板接入、检查、备份与恢复，仅使用 Node.js 内置模块 |
 | `config.json` | 没有已发布世界配置时的默认示例 |
@@ -46,6 +48,7 @@
 
 - 配置入口统一调用 `normalize()`。配置结构发生变化时检查默认数据、编辑器读写、导入导出、发布和登录渲染，避免字段只在某一端生效。
 - 默认示例同时存在于 `model.mjs` 的 `defaults` 和根目录 `config.json`。有意修改共同默认内容时同步两处。
+- `layout.login/roster` 为共享布局；角色 `layout.name/tag/hero/description/detail` 为各角色独立布局。位置按视口百分比、缩放按倍数保存；编辑器与登录页复用 `scene.mjs` 和 `scene.css`。当前仅考虑桌面，join 页面固定一屏、不滚动。
 - 登录页读取顺序为 `storage/<世界ID>.json` → `config.json` → 内置 `defaults`，请求不使用缓存；当前页面加载后需刷新才会重新读配置。
 - 编辑器从世界设置 `portrait-login.config` 读取；发布先通过 `FilePicker.implementation.uploadPersistent()` 写公开 JSON，再保存世界设置。不要把世界设置与公开文件视为自动同步或原子写入。
 - `storage/` 是需要保留的用户数据。不要清空、覆盖其他世界文件，或把本机真实世界配置加入示例。
@@ -58,6 +61,7 @@
 - 图片地址通过 `assetURL()` 处理：`@/` 相对模组目录，其他相对路径基于 Foundry 服务根路径；允许 HTTP(S)，拒绝本机盘符与危险协议。保持反向代理子路径下的 URL 解析方式。
 - `strip` 为 `0–4` 时使用五等分示例图；自定义图片应设为 `null`。显式提供 `hero` 时大立绘不分栏；`position: 0` 是有效值。
 - 保持 `.pl-*` 命名，登录样式尽量限制在 `body.pl-active` 下。不要让主题样式影响正常世界界面。
+- 编辑器打开前会加载带版本标识的设置样式，以兼容世界页面残留的旧样式。修改这些样式时同步更新 `settings.mjs` 的样式 URL 和 `settings.css` 的场景导入版本；用原生 `ApplicationV2` 检查新脚本与旧样式共存时的布局，不能只验证独立预览或 join 页面。
 - 修改交互或布局时保留角色按钮的可访问名称、`aria-pressed`、状态播报、键盘左右切换、可见焦点与减少动画支持。
 - 界面文案使用简明中文，说明用户可执行的操作或当前状态；不要把调试过程和实现细节放进产品文案。
 
@@ -77,6 +81,7 @@
 
 ```sh
 node --check scripts/model.mjs
+node --check scripts/scene.mjs
 node --check scripts/login.mjs
 node --check scripts/settings.mjs
 node --check tools/install.mjs
@@ -86,8 +91,8 @@ node --check tools/install.mjs
 | --- | --- |
 | 文档 | 文件链接、命令、字段和默认值与源码一致；区分历史记录与本次验证 |
 | 共享模型 | 默认配置、空列表、字段边界、`position: 0`、分栏、自定义图、URL 与文本处理 |
-| 登录交互或样式 | 真实 13.351 下的 GM/玩家登录、错误密码、在线账户、切换账户、管理员入口、回退；桌面和 390px 移动布局、键盘操作 |
-| 配置窗口 | 增删排序、隐藏、账户绑定、图片浏览、导入导出、发布后刷新、不同世界配置隔离 |
+| 登录交互或样式 | 真实 13.351 下的 GM/玩家登录、错误密码、在线账户、切换账户、管理员入口、回退；桌面固定一屏、无页面滚动、键盘操作 |
+| 配置窗口 | 全屏、七类元素拖动与缩放、双击文字编辑、布局持久化、增删排序、隐藏、账户绑定、图片浏览、导入导出、发布后刷新、不同世界配置隔离 |
 | 安装器 | 临时模板下的版本拒绝、备份、重复安装、恢复、保留外部改动、备份冲突与不完整标记 |
 
 `测试结果.json` 是已有测试结果摘要，没有可直接运行的测试用例。修改后仅报告实际执行的检查；未启动真实 Foundry 时，明确登录、发布和视觉效果尚未复验。交付说明包含修改内容、验证结果和未验证部分。
