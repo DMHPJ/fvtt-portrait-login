@@ -1,0 +1,23 @@
+{
+  "id": "portrait-login",
+  "title": "冒险者之门 · 角色立绘登录",
+  "description": "为 Foundry VTT 13.351 提供大立绘、横排角色卡与 GM 可视化配置。需使用随包接入工具启用原生登录页主题。",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "13.351",
+    "maximum": "13",
+    "verified": "13.351"
+  },
+  "authors": [
+    {
+      "name": "Custom local module"
+    }
+  ],
+  "esmodules": [
+    "scripts/settings.mjs"
+  ],
+  "styles": [
+    "styles/settings.css"
+  ],
+  "persistentStorage": true
+}
