@@ -1,12 +1,17 @@
 import {assetURL,paintArt,DEFAULT_LAYOUT} from './model.mjs';
 
-export const ITEM_LABELS={name:'角色姓名',tag:'称号 / 职业',hero:'角色立绘',description:'角色介绍',detail:'底部特征文字',login:'登录卡片',roster:'角色选择器'};
-export const TEXT_LIMITS={name:80,tag:80,description:1500,detail:160};
+export const ITEM_LABELS={eyebrow:'上方标语',name:'角色姓名',tag:'称号 / 职业',hero:'角色立绘',description:'角色介绍',detail:'底部特征文字',login:'登录卡片',roster:'角色选择器'};
+export const TEXT_LIMITS={eyebrow:80,name:80,tag:80,description:1500,detail:160};
 export function element(tag,cls,content){
   const node=document.createElement(tag);if(cls)node.className=cls;if(content)node.textContent=content;return node;
 }
 export function applyLayout(node,layout){
   node.style.left=`${layout.x}%`;node.style.top=`${layout.y}%`;node.style.transform=`scale(${layout.scale})`;
+  for(const dimension of ['width','height']){
+    if(layout[dimension])node.style.setProperty(dimension,`${layout[dimension]}px`,'important');
+    else node.style.removeProperty(dimension);
+  }
+  node.toggleAttribute('data-pl-height',Boolean(layout.height));
 }
 export function createScene(root,config,{onSelect,editing=false}={}){
   root.classList.add('pl-stage');
@@ -20,7 +25,7 @@ export function createScene(root,config,{onSelect,editing=false}={}){
   const heading=element('div','pl-roster-heading');heading.append(element('span','','选择你的冒险者'),element('span','pl-subtitle',config.subtitle));
   const cards=element('div','pl-cards');roster.append(heading,cards);
   const foot=element('p','pl-footer','同赴未知 · 共写传奇');
-  for(const [key,node] of Object.entries({name,tag,hero,description,detail,roster}))node.dataset.plItem=key;
+  for(const [key,node] of Object.entries({eyebrow,name,tag,hero,description,detail,roster}))node.dataset.plItem=key;
   for(const node of [backdrop,head,eyebrow,name,tag,hero,description,detail,roster,foot]){node.dataset.plOwned='';root.append(node);}
   for(const c of config.characters.filter(c=>editing||c.enabled)){
     const button=element('button','pl-card');button.type='button';button.dataset.character=c.id;button.setAttribute('aria-label',`选择${c.name}`);
@@ -37,8 +42,8 @@ export function createScene(root,config,{onSelect,editing=false}={}){
 }
 export function updateScene(root,config,character){
   root.style.setProperty('--pl-accent',config.accent);root.style.setProperty('--pl-character',character?.color||config.accent);root.style.setProperty('--pl-card-height',`${config.cardHeight}px`);
-  root.querySelector('.pl-title').textContent=config.title;root.querySelector('.pl-eyebrow').textContent=config.eyebrow;root.querySelector('.pl-subtitle').textContent=config.subtitle;
-  const values=character??{name:config.title,tag:'冒险即将开始',description:config.subtitle,detail:''};
+  root.querySelector('.pl-title').textContent=config.title;root.querySelector('.pl-subtitle').textContent=config.subtitle;
+  const values={...(character??{name:config.title,tag:'冒险即将开始',description:config.subtitle,detail:''}),eyebrow:config.eyebrow};
   for(const key of Object.keys(TEXT_LIMITS))root.querySelector(`[data-pl-item="${key}"]`).textContent=values[key];
   paintArt(root.querySelector('.pl-hero'),character??{portrait:'',strip:null,position:50},{hero:true});
   const background=assetURL(character?.background||config.background);root.querySelector('.pl-backdrop').style.backgroundImage=background?`url(${JSON.stringify(background)})`:'none';

@@ -1,13 +1,16 @@
-@import url('./scene.css?v=20261008-editor-2');
+@import url('./scene.css?v=20261009-eyebrow-1');
 
 .pl-config{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;min-width:0!important;min-height:0!important;margin:0!important;padding:0!important;transform:none!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#0b1015;color:#e9e4d9}
 .pl-config>.window-header{display:none!important}
 .pl-config .window-content{position:relative;padding:0!important;height:100%;overflow:hidden!important}
 .pl-editor{position:relative;width:100%;height:100%;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
 .pl-editor-canvas{position:absolute;inset:0}
-.pl-editor-toolbar{position:absolute;right:5%;top:20px;display:flex;align-items:center;gap:10px;z-index:20}
+.pl-editor-canvas::after{content:"";display:none;position:absolute;inset:0;z-index:8;pointer-events:none;background-image:linear-gradient(to right,#c8aa7150 1px,transparent 1px),linear-gradient(to bottom,#c8aa7150 1px,transparent 1px),linear-gradient(to right,#c8aa7126 1px,transparent 1px),linear-gradient(to bottom,#c8aa7126 1px,transparent 1px);background-size:calc(var(--pl-grid-size)*5) calc(var(--pl-grid-size)*5),calc(var(--pl-grid-size)*5) calc(var(--pl-grid-size)*5),var(--pl-grid-size) var(--pl-grid-size),var(--pl-grid-size) var(--pl-grid-size)}
+.pl-editor-canvas.pl-grid-visible::after{display:block}
+.pl-editor-toolbar{position:absolute;right:5%;top:0;height:80px;display:flex;align-items:center;gap:10px;z-index:20}
 .pl-editor-toolbar button,.pl-config-panel button{width:auto;flex:0 0 auto;min-height:32px;padding:5px 12px;background:#202830;border:1px solid #ffffff25;border-radius:3px;color:#e9e4d9;cursor:pointer;font-size:12px;line-height:1.5;box-shadow:none}
 .pl-editor-toolbar button:hover,.pl-config-panel button:hover{background:#303c47}
+.pl-editor-toolbar [data-command="snap-grid"][aria-pressed="true"]{border-color:#c8aa71;background:#393426;color:#f2dcae}
 .pl-editor-toolbar .pl-publish{background:#c8aa71;color:#151515;border-color:#c8aa71}
 .pl-editor-toolbar .pl-save-status{font-size:11px;color:#c8aa71;max-width:250px}
 .pl-editor-help{position:absolute;left:5%;top:91px;margin:0;padding:6px 10px;border:1px solid #ffffff16;border-radius:3px;background:#111820d9;color:#929da8;font-size:11px;pointer-events:none;z-index:10}
@@ -27,11 +30,17 @@
 .pl-config-panel details{border-top:1px solid #ffffff20;margin-top:20px;padding-top:16px}
 .pl-config-panel summary{cursor:pointer;font-size:13px}.pl-config-panel a{font-size:12px;color:#c8aa71}
 .pl-config :focus-visible{outline:2px solid #c8aa71!important;outline-offset:3px}
-.pl-editor-canvas .pl-editable{cursor:grab;user-select:none;outline:1px dashed transparent;outline-offset:6px}
+.pl-editor-canvas .pl-editable{cursor:grab;user-select:none;outline:1px dashed transparent;outline-offset:-1px}
 .pl-editor-canvas .pl-editable:hover{outline-color:#c8aa7190}
 .pl-editor-canvas .pl-dragging{cursor:grabbing;outline-color:#c8aa71;z-index:9}
+.pl-resize-frame{position:absolute;border:1px dashed #c8aa7190;pointer-events:none;z-index:11;box-sizing:border-box}
+.pl-resize-frame[hidden]{display:none}
+.pl-editor-canvas .pl-resize-handle{position:absolute;display:block;width:12px;height:12px;min-height:0;margin:0;padding:0;border:1px solid #f2dcae;border-radius:2px;background:#c8aa71;box-shadow:0 0 0 1px #151b22;pointer-events:auto;touch-action:none;transition:none}
+.pl-resize-handle[data-resize="x"]{cursor:ew-resize}
+.pl-resize-handle[data-resize="y"]{cursor:ns-resize}
+.pl-resize-handle[data-resize="xy"]{cursor:nwse-resize}
 .pl-editor-canvas .pl-native-form>*{pointer-events:none}
 .pl-editor-canvas .pl-native-form :disabled{opacity:1;filter:none}
 .pl-editor-canvas [data-placeholder]:empty::before{content:attr(data-placeholder);font-size:12px;color:#818b94;letter-spacing:0}
-.pl-editor-canvas [contenteditable]{cursor:text;user-select:text;background:#0b1015dd;outline:2px solid #c8aa71!important;z-index:10;min-width:120px}
+.pl-editor-canvas [data-pl-item][contenteditable]{cursor:text;user-select:text;background:#0b1015dd;outline:2px solid #c8aa71!important;outline-offset:-2px;z-index:10;overflow:auto}
 .pl-editor-canvas .pl-card:hover{transform:none}

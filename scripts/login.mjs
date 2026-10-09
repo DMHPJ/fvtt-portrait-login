@@ -15,7 +15,7 @@ if (!new URL(location.href).searchParams.has('portraitLoginOff')) {
     currentRoot?.querySelectorAll('[data-pl-owned]').forEach(n=>n.remove());
     currentRoot?.classList.remove('pl-stage');
     const form=currentRoot?.querySelector('#join-game-form');
-    if(form){delete form.dataset.plItem;form.style.removeProperty('left');form.style.removeProperty('top');form.style.removeProperty('transform');}
+    if(form){delete form.dataset.plItem;form.style.removeProperty('left');form.style.removeProperty('top');form.style.removeProperty('transform');form.style.removeProperty('width');form.style.removeProperty('height');form.removeAttribute('data-pl-height');}
   }
   function mount(root){
     currentRoot=root;root.querySelectorAll('[data-pl-owned]').forEach(n=>n.remove());

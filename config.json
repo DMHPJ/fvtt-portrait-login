@@ -6,6 +6,11 @@
   "accent": "#c8aa71",
   "cardHeight": 158,
   "layout": {
+    "eyebrow": {
+      "x": 5,
+      "y": 21,
+      "scale": 1
+    },
     "login": {
       "x": 74,
       "y": 30,

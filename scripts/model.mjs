@@ -2,15 +2,19 @@ export const ID = "portrait-login";
 export const MODULE_URL = new URL('../', import.meta.url);
 export const SERVER_URL = new URL('../../', MODULE_URL);
 export const CHARACTER_ITEMS = ['name','tag','hero','description','detail'];
-export const GLOBAL_ITEMS = ['login','roster'];
+export const GLOBAL_ITEMS = ['eyebrow','login','roster'];
 export const DEFAULT_LAYOUT = {
   name:{x:5,y:28,scale:1},tag:{x:5,y:40,scale:1},hero:{x:38,y:12,scale:1},
   description:{x:5,y:47,scale:1},detail:{x:5,y:63,scale:1},
-  login:{x:74,y:30,scale:1},roster:{x:5,y:70,scale:1}
+  eyebrow:{x:5,y:21,scale:1},login:{x:74,y:30,scale:1},roster:{x:5,y:70,scale:1}
 };
 function normalizeLayout(source,keys){
   const number=(value,fallback,min,max)=>typeof value==='number'&&Number.isFinite(value)?Math.min(max,Math.max(min,value)):fallback;
-  return Object.fromEntries(keys.map(key=>{const v=source?.[key],d=DEFAULT_LAYOUT[key];return [key,{x:number(v?.x,d.x,0,100),y:number(v?.y,d.y,0,100),scale:number(v?.scale,d.scale,.25,3)}];}));
+  return Object.fromEntries(keys.map(key=>{
+    const v=source?.[key],d=DEFAULT_LAYOUT[key],layout={x:number(v?.x,d.x,-100,100),y:number(v?.y,d.y,-100,100),scale:number(v?.scale,d.scale,.25,3)};
+    for(const dimension of ['width','height'])if(typeof v?.[dimension]==='number'&&Number.isFinite(v[dimension])&&v[dimension]>0)layout[dimension]=number(v[dimension],null,1,10000);
+    return [key,layout];
+  }));
 }
 export const text = (v, max=1000) => String(v??'').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,'').slice(0,max);
 export const escape = v => text(v,10000).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
