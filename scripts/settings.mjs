@@ -7,7 +7,7 @@ function loadEditorStyles(){
   if(editorStyles)return editorStyles;
   // Load a matching stylesheet even when the world still holds the old module CSS.
   const link=document.createElement('link');link.rel='stylesheet';
-  link.href=new URL('../styles/settings.css?v=20261009-eyebrow-1',import.meta.url).href;
+  link.href=new URL('../styles/settings.css?v=20261009-controls-1',import.meta.url).href;
   editorStyles=new Promise((resolve,reject)=>{
     link.addEventListener('load',resolve,{once:true});
     link.addEventListener('error',()=>{link.remove();editorStyles=null;reject(new Error('登录页编辑器样式加载失败，请刷新后重试。'));},{once:true});

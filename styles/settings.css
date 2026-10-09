@@ -1,4 +1,4 @@
-@import url('./scene.css?v=20261009-eyebrow-1');
+@import url('./scene.css?v=20261009-controls-1');
 
 .pl-config{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;min-width:0!important;min-height:0!important;margin:0!important;padding:0!important;transform:none!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#0b1015;color:#e9e4d9}
 .pl-config>.window-header{display:none!important}
@@ -20,7 +20,7 @@
 .pl-config-panel label{display:flex;flex-direction:column;gap:6px;font-size:12px}
 .pl-config-panel input,.pl-config-panel select{width:100%;min-width:0;min-height:32px;border:1px solid #ffffff26;background:#080f17;color:#ddd8cc;border-radius:3px;padding:5px 8px;font-family:inherit}
 .pl-config-panel input[type=color]{height:34px;padding:3px}
-.pl-config-panel input[type=checkbox]{min-height:0;width:16px;height:16px}
+.pl-config-panel input[type=checkbox]{--checkbox-size:16px;flex:0 0 var(--checkbox-size);min-height:0;width:var(--checkbox-size);height:var(--checkbox-size);margin:0;padding:0;border:0;background:none;line-height:var(--checkbox-size)}
 .pl-config-panel .pl-check{flex-direction:row;align-items:center}
 .pl-fields-grid{display:grid;grid-template-columns:1fr;gap:14px;margin:16px 0}
 .pl-image-field{display:flex;gap:5px}.pl-image-field button{flex:0 0 35px;padding:4px}
