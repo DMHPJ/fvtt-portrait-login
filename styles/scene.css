@@ -1,7 +1,7 @@
 .pl-stage{--pl-accent:#c8aa71;--pl-character:#90ad92;--pl-card-height:158px;position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate;background:#0b1015;color:#f5efe2;font-family:"Microsoft YaHei","PingFang SC",sans-serif;font-size:14px;line-height:1.5;text-align:left;color-scheme:dark}
 .pl-stage *{box-sizing:border-box}
-.pl-stage::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 60% 32%,color-mix(in srgb,var(--pl-character),transparent 88%),transparent 54%),linear-gradient(0deg,#090d12 0%,transparent 60%);z-index:0}
-.pl-stage .pl-backdrop{position:absolute;inset:0;background-position:center;background-size:cover;opacity:.28;pointer-events:none;z-index:-1}
+.pl-stage::before{content:none}
+.pl-stage .pl-backdrop{position:absolute;inset:0;background-position:center;background-size:cover;opacity:1;pointer-events:none;z-index:-1}
 .pl-stage [data-pl-item]{position:absolute!important;transform-origin:top left;margin:0!important;touch-action:none}
 .pl-stage [data-pl-item][data-pl-height]{min-height:0;overflow:hidden}
 .pl-stage .pl-header{position:absolute;left:5%;right:5%;top:0;height:80px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #fff1;z-index:6}
@@ -46,3 +46,10 @@
 .pl-stage .pl-empty{color:#a3aab1;padding:30px 0}
 .pl-stage :focus-visible{outline:2px solid var(--pl-accent)!important;outline-offset:4px}
 @media(prefers-reduced-motion:reduce){.pl-stage *{transition:none!important;animation:none!important}}
+
+/* Local text panels follow each editable item without changing its saved geometry. */
+.pl-stage :is(.pl-eyebrow,.pl-name,.pl-tag,.pl-description,.pl-detail){isolation:isolate;text-shadow:0 2px 5px #0009}
+.pl-stage :is(.pl-eyebrow,.pl-name,.pl-tag,.pl-description,.pl-detail)::before{content:"";position:absolute;inset:-18px -30px;z-index:-1;pointer-events:none;border:0;border-radius:0;background:rgba(9,16,25,.78);box-shadow:none;mask-image:linear-gradient(to right,transparent,#000 30px,#000 calc(100% - 30px),transparent),linear-gradient(to bottom,transparent,#000 18px,#000 calc(100% - 18px),transparent);mask-composite:intersect}
+.pl-stage :is(.pl-eyebrow,.pl-name,.pl-tag,.pl-description,.pl-detail):empty::before{display:none}
+.pl-stage .pl-description{color:#e4e7eb}
+.pl-stage .pl-detail{color:#c8cfd7}

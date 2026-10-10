@@ -1,4 +1,6 @@
-@import url('./scene.css?v=20261009-controls-1');
+@import url('./scene.css?v=20261010-idle-page-1');
+@import url('./doodle.css?v=20261010-idle-page-1');
+@import url('./notebook.css?v=20261010-idle-page-1');
 
 .pl-config{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;min-width:0!important;min-height:0!important;margin:0!important;padding:0!important;transform:none!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#0b1015;color:#e9e4d9}
 .pl-config>.window-header{display:none!important}

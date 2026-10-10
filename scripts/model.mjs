@@ -28,7 +28,7 @@ export function assetURL(value) {
   } catch{return '';}
 }
 export const defaults = {
-  title:'冒险者之门',subtitle:'每一次相逢，都是传奇的序章。',eyebrow:'THE NEXT CHAPTER',background:'',accent:'#c8aa71',cardHeight:158,layout:normalizeLayout(null,GLOBAL_ITEMS),
+  title:'冒险者之门',subtitle:'每一次相逢，都是传奇的序章。',eyebrow:'THE NEXT CHAPTER',background:'',idleHero:'',idleHeroLayout:normalizeLayout(null,['hero']).hero,accent:'#c8aa71',cardHeight:158,layout:normalizeLayout(null,GLOBAL_ITEMS),
   characters:[
     {id:'ranger',name:'瑟琳 · 风语',tag:'月林游侠',description:'循着星光与林间的低语，踏上尚无人抵达的旅途。',detail:'长弓 · 自然 · 守望',color:'#90ad92'},
     {id:'knight',name:'亚瑟 · 灰烬',tag:'誓约骑士',description:'旧日的荣光已化作灰烬，而守护的誓言从未熄灭。',detail:'长剑 · 坚守 · 荣誉',color:'#c88477'},
@@ -39,7 +39,7 @@ export const defaults = {
 };
 export function normalize(source={}) {
   const hex=(v,fallback)=>/^#[\da-f]{6}$/i.test(v)?v:fallback;
-  const c={title:text(source.title??defaults.title,80),subtitle:text(source.subtitle??defaults.subtitle,250),eyebrow:text(source.eyebrow??defaults.eyebrow,80),background:text(source.background,1000),accent:hex(source.accent,defaults.accent),cardHeight:Math.min(260,Math.max(100,Number(source.cardHeight)||158)),layout:normalizeLayout(source.layout,GLOBAL_ITEMS),characters:[]};
+  const c={title:text(source.title??defaults.title,80),subtitle:text(source.subtitle??defaults.subtitle,250),eyebrow:text(source.eyebrow??defaults.eyebrow,80),background:text(source.background,1000),idleHero:text(source.idleHero,1000),idleHeroLayout:normalizeLayout({hero:source.idleHeroLayout},['hero']).hero,accent:hex(source.accent,defaults.accent),cardHeight:Math.min(260,Math.max(100,Number(source.cardHeight)||158)),layout:normalizeLayout(source.layout,GLOBAL_ITEMS),characters:[]};
   const rows=Array.isArray(source.characters)?source.characters:defaults.characters;
   c.characters=rows.slice(0,60).map((x,i)=>({id:text(x.id||`character-${i+1}`,80),name:text(x.name||'未命名角色',80),tag:text(x.tag,80),description:text(x.description,1500),detail:text(x.detail,160),userId:text(x.userId,80),portrait:text(x.portrait,1000),hero:text(x.hero,1000),background:text(x.background,1000),color:hex(x.color,c.accent),strip:Number.isInteger(x.strip)&&x.strip>=0&&x.strip<=4?x.strip:null,position:Math.min(100,Math.max(0,Number.isFinite(Number(x.position)) ? Number(x.position) : 50)),enabled:x.enabled!==false,layout:normalizeLayout(x.layout,CHARACTER_ITEMS)}));
   return c;

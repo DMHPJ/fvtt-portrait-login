@@ -233,5 +233,11 @@
         }
       }
     }
-  ]
+  ],
+  "idleHero": "",
+  "idleHeroLayout": {
+    "x": 38,
+    "y": 12,
+    "scale": 1
+  }
 }

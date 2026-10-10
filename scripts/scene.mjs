@@ -15,20 +15,28 @@ export function applyLayout(node,layout){
 }
 export function createScene(root,config,{onSelect,editing=false}={}){
   root.classList.add('pl-stage');
+  mountCursorHighlight(root);
   const backdrop=element('div','pl-backdrop');
   const head=element('header','pl-header');
-  const brand=element('div','pl-brand');brand.append(element('span','pl-sigil','✧'),element('span','pl-title',config.title));head.append(brand);
-  const eyebrow=element('p','pl-eyebrow',config.eyebrow);
+  const brand=element('div','pl-brand');brand.append(element('span','pl-sigil','✧'),element('span','pl-title',config.title));const headingGroup=element('div','pl-heading-group');headingGroup.append(brand);head.append(headingGroup);
+  const eyebrow=element('p','pl-eyebrow',config.eyebrow);headingGroup.append(eyebrow);
   const name=element('h1','pl-name'),tag=element('p','pl-tag'),description=element('p','pl-description'),detail=element('p','pl-detail');
+  const notebook=element('section','pl-notebook');notebook.setAttribute('aria-label','冒险笔记本');
+  const loginPage=element('div','pl-notebook-login');
+  const characterPage=element('section','pl-notebook-character');characterPage.id=editing?'pl-editor-character-page':'pl-character-page';characterPage.setAttribute('aria-label','角色档案');
+  const pageHeading=element('div','pl-notebook-heading');pageHeading.append(element('span','','角色档案'));
+  if(!editing){const close=element('button','pl-notebook-close','×');close.type='button';close.setAttribute('aria-label','收起角色页');close.addEventListener('click',()=>{const selected=root.querySelector('.pl-card[aria-pressed="true"]');onSelect?.(null);selected?.focus({preventScroll:true});});pageHeading.append(close);}
+  const body=element('div','pl-notebook-copy');body.append(name,tag,description,detail);characterPage.append(pageHeading,body);
+  const rings=element('div','pl-notebook-rings');rings.setAttribute('aria-hidden','true');for(let i=0;i<6;i++)rings.append(element('i'));
+  notebook.append(loginPage,characterPage,rings);
   const hero=element('div','pl-hero');hero.setAttribute('aria-hidden','true');
   const roster=element('section','pl-roster');roster.setAttribute('aria-label','选择角色');
-  const heading=element('div','pl-roster-heading');heading.append(element('span','','选择你的冒险者'),element('span','pl-subtitle',config.subtitle));
+  const heading=element('div','pl-roster-heading');heading.append(element('span','pl-subtitle',config.subtitle));
   const cards=element('div','pl-cards');roster.append(heading,cards);
-  const foot=element('p','pl-footer','同赴未知 · 共写传奇');
   for(const [key,node] of Object.entries({eyebrow,name,tag,hero,description,detail,roster}))node.dataset.plItem=key;
-  for(const node of [backdrop,head,eyebrow,name,tag,hero,description,detail,roster,foot]){node.dataset.plOwned='';root.append(node);}
+  for(const node of [backdrop,head,hero,notebook,roster]){node.dataset.plOwned='';root.append(node);}
   for(const c of config.characters.filter(c=>editing||c.enabled)){
-    const button=element('button','pl-card');button.type='button';button.dataset.character=c.id;button.setAttribute('aria-label',`选择${c.name}`);
+    const button=element('button','pl-card');button.type='button';button.dataset.character=c.id;button.setAttribute('aria-controls',characterPage.id);button.setAttribute('aria-expanded','false');button.setAttribute('aria-label',`选择${c.name}`);
     const art=element('span','pl-card-art');paintArt(art,c);const label=element('span','pl-card-label');label.append(element('strong','',c.name),element('small','',c.tag));
     button.classList.toggle('pl-hidden-character',!c.enabled);
     button.append(art,label);button.addEventListener('click',()=>onSelect?.(c.id));cards.append(button);
@@ -45,15 +53,52 @@ export function updateScene(root,config,character){
   root.querySelector('.pl-title').textContent=config.title;root.querySelector('.pl-subtitle').textContent=config.subtitle;
   const values={...(character??{name:config.title,tag:'冒险即将开始',description:config.subtitle,detail:''}),eyebrow:config.eyebrow};
   for(const key of Object.keys(TEXT_LIMITS))root.querySelector(`[data-pl-item="${key}"]`).textContent=values[key];
-  paintArt(root.querySelector('.pl-hero'),character??{portrait:'',strip:null,position:50},{hero:true});
-  const background=assetURL(character?.background||config.background);root.querySelector('.pl-backdrop').style.backgroundImage=background?`url(${JSON.stringify(background)})`:'none';
+  const artwork=character??{portrait:config.idleHero,hero:config.idleHero,strip:null,position:50};
+  const hero=root.querySelector('.pl-hero');hero.hidden=!character&&!assetURL(config.idleHero);paintArt(hero,artwork,{hero:true});
+  const background=assetURL(character?.background||config.background);
+  const nativeNode=document.querySelector('#main-background');
+  const nativeImage=nativeNode?getComputedStyle(nativeNode).backgroundImage:null;
+  const worldImage=assetURL(globalThis.game?.world?.background||'ui/backgrounds/setup.webp');
+  root.querySelector('.pl-backdrop').style.backgroundImage=background?`url(${JSON.stringify(background)})`:(nativeImage&&nativeImage!=='none'?nativeImage:`url(${JSON.stringify(worldImage)})`);
+  const notebook=root.querySelector('.pl-notebook'),page=notebook.querySelector('.pl-notebook-character');
+  const previous=notebook.dataset.selectedCharacter,next=character?.id??'';notebook.dataset.selectedCharacter=next;
+  if(!next)page.__plTurnAnimation?.cancel();
+  if(previous&&next&&previous!==next&&root.isConnected)animateCharacterPage(root);
+  notebook.classList.toggle('pl-notebook-open',Boolean(character));page.inert=!character;page.setAttribute('aria-hidden',String(!character));
   for(const node of root.querySelectorAll('[data-pl-item]')){
-    const key=node.dataset.plItem;applyLayout(node,character?.layout?.[key]??config.layout[key]??DEFAULT_LAYOUT[key]);
+    if(node.closest('.pl-notebook,.pl-heading-group')){for(const property of ['left','top','transform','width','height'])node.style.removeProperty(property);node.removeAttribute('data-pl-height');continue;}
+    const key=node.dataset.plItem;if(key==='hero'&&!character){applyLayout(node,config.idleHeroLayout??DEFAULT_LAYOUT.hero);continue;}applyLayout(node,character?.layout?.[key]??config.layout[key]??DEFAULT_LAYOUT[key]);
   }
   for(const button of root.querySelectorAll('.pl-card')){
     const c=config.characters.find(c=>c.id===button.dataset.character);if(!c)continue;
-    button.setAttribute('aria-pressed',String(c.id===character?.id));button.setAttribute('aria-label',`选择${c.name}`);
+    button.setAttribute('aria-pressed',String(c.id===character?.id));button.setAttribute('aria-expanded',String(c.id===character?.id));button.setAttribute('aria-label',`选择${c.name}`);
     button.querySelector('strong').textContent=c.name;button.querySelector('small').textContent=c.tag;
     button.classList.toggle('pl-hidden-character',!c.enabled);paintArt(button.querySelector('.pl-card-art'),c);
   }
+}
+
+function mountCursorHighlight(root){
+  root.__plCursorAbort?.abort();root.querySelector('.pl-cursor-highlight')?.remove();
+  const controller=new AbortController();root.__plCursorAbort=controller;
+  const cursor=element('div','pl-cursor-highlight');cursor.dataset.plOwned='';cursor.setAttribute('aria-hidden','true');root.append(cursor);
+  const listen=(type,handler)=>root.addEventListener(type,handler,{passive:true,signal:controller.signal});
+  listen('pointermove',event=>{
+    if(event.pointerType==='touch'){cursor.classList.remove('pl-cursor-visible');return;}
+    cursor.style.transform=`translate3d(${event.clientX-18}px,${event.clientY-18}px,0)`;cursor.classList.add('pl-cursor-visible');
+  });
+  listen('pointerleave',()=>cursor.classList.remove('pl-cursor-visible','pl-cursor-pressed'));
+  listen('pointerdown',event=>{if(event.pointerType!=='touch')cursor.classList.add('pl-cursor-pressed');});
+  for(const type of ['pointerup','pointercancel'])listen(type,()=>cursor.classList.remove('pl-cursor-pressed'));
+}
+
+export function animateCharacterPage(root){
+  const page=root.querySelector('.pl-notebook-character');
+  page?.__plTurnAnimation?.cancel();
+  if(!page||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const animation=page.animate([
+    {transform:'rotateY(-42deg)',opacity:.55,filter:'brightness(.9)'},
+    {transform:'rotateY(-12deg)',opacity:1,filter:'brightness(1)',offset:.65},
+    {transform:'rotateY(0deg)',opacity:1,filter:'brightness(1)'}
+  ],{duration:340,easing:'cubic-bezier(.2,.7,.2,1)'});
+  animation.id='pl-character-switch';page.__plTurnAnimation=animation;
 }

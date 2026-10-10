@@ -4,9 +4,9 @@
 
 ## 项目定位
 
-- 模组名称：冒险者之门 · 角色立绘登录；ID：`portrait-login`；当前版本：`1.0.0`。
+- 模组名称：冒险者之门 · 角色立绘登录；ID：`portrait-login`；当前版本：`1.1.0`。
 - 当前目标版本为 Foundry VTT **13.351**。接入工具会检查程序 `package.json` 中的 `name`、`release.generation` 和 `release.build`，拒绝其他版本。
-- 这是直接运行的 JavaScript ES Modules 与 CSS 项目，没有 `package.json`、依赖安装流程、打包步骤或自动化测试框架。
+- 这是直接运行的 JavaScript ES Modules 与 CSS 项目，没有 `package.json`、依赖安装流程、打包步骤或第三方测试框架；接入器回归测试使用 `node --test tests/world-scope.test.mjs`。
 - 世界内配置界面和未登录时的主题是两个入口。`module.json` 只声明 `settings.mjs` 与 `settings.css`；登录页通过 `tools/install.mjs` 修改 Foundry 的 `templates/views/join.hbs` 接入。
 
 ## 文件职责
@@ -22,7 +22,7 @@
 | `styles/login.css` | 登录页全屏与禁用页面滚动、原生界面覆盖 |
 | `styles/settings.css` | 世界内配置窗口样式 |
 | `tools/install.mjs` | 模板接入、检查、备份与恢复，仅使用 Node.js 内置模块 |
-| `config.json` | 没有已发布世界配置时的默认示例 |
+| `config.json` | 可导入编辑器的示例配置，不自动用于登录页 |
 | `storage/` | GM 发布的各世界配置；更新时保留 |
 | `assets/` | 五角色示例合影、素材说明与生成提示 |
 | `测试结果.json`、`使用说明.md` | 历史验证记录与使用说明；其中本机信息不是当前环境保证 |
@@ -49,7 +49,7 @@
 - 配置入口统一调用 `normalize()`。配置结构发生变化时检查默认数据、编辑器读写、导入导出、发布和登录渲染，避免字段只在某一端生效。
 - 默认示例同时存在于 `model.mjs` 的 `defaults` 和根目录 `config.json`。有意修改共同默认内容时同步两处。
 - `layout.eyebrow/login/roster` 为共享布局；角色 `layout.name/tag/hero/description/detail` 为各角色独立布局。位置按视口百分比、缩放按倍数保存；编辑器与登录页复用 `scene.mjs` 和 `scene.css`。当前仅考虑桌面，join 页面固定一屏、不滚动。
-- 登录页读取顺序为 `storage/<世界ID>.json` → `config.json` → 内置 `defaults`，请求不使用缓存；当前页面加载后需刷新才会重新读配置。
+- 登录页只读取 `storage/<世界ID>.json`，请求不使用缓存；缺失、无效或无法取得世界 ID 时保持原生页面，不自动套用示例。
 - 编辑器从世界设置 `portrait-login.config` 读取；发布先通过 `FilePicker.implementation.uploadPersistent()` 写公开 JSON，再保存世界设置。不要把世界设置与公开文件视为自动同步或原子写入。
 - `storage/` 是需要保留的用户数据。不要清空、覆盖其他世界文件，或把本机真实世界配置加入示例。
 - 发布 JSON 包含账户 ID、图片路径、角色文案以及被隐藏的角色。`enabled: false` 只影响展示，不保护秘密信息。不要将密码、令牌或私密角色资料写入配置。
@@ -70,7 +70,7 @@
 - 保留对 13.351 的严格检查；单独放宽 `module.json` 不能证明支持新版本。
 - 保留 `portrait-login:v1:start/end` 标记、首次备份、重复安装不重复注入、模板结构检查和备份冲突保护。
 - 恢复时只移除本主题接入，保留其他模板改动；不要无条件拿备份覆盖现有模板。
-- 当前接入作用于该 Foundry 程序的登录模板，不以世界是否启用模组为开关。卸载主题需要恢复模板。
+- 接入器修改登录模板及 `dist/server/views/join.mjs`，仅当前世界 core.moduleConfiguration 明确启用模组时注入资源；未登录客户端没有此设置，不得使用 game.modules 猜测。卸载需同时恢复两处接入。
 - 未获对应操作授权时，不修改工作区外的真实 Foundry 程序或重启服务。测试安装器优先使用临时目录内的仿真模板，不能把仿真结果当成真实登录验证。
 
 ## 验证与交付
@@ -96,3 +96,7 @@ node --check tools/install.mjs
 | 安装器 | 临时模板下的版本拒绝、备份、重复安装、恢复、保留外部改动、备份冲突与不完整标记 |
 
 `测试结果.json` 是已有测试结果摘要，没有可直接运行的测试用例。修改后仅报告实际执行的检查；未启动真实 Foundry 时，明确登录、发布和视觉效果尚未复验。交付说明包含修改内容、验证结果和未验证部分。
+
+## 1.1.0 布局约定
+
+笔记本内文字及顶部标语固定排版，不应用旧独立位置；保持双击编辑。初始选择为空，关闭资料页不清空账户。默认背景来自 background 或原生背景容器；idleHero 留空隐藏，idleHeroLayout 独立保存。切换动画取消前一动画并遵循减少动态效果。新增样式包括 doodle.css 与 notebook.css。

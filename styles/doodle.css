@@ -1,0 +1,58 @@
+/* Doodle: paper, ink outlines and blue pencil accents. Geometry is owned by the editor. */
+.pl-stage,.pl-config{--pl-paper:#fffdf7;--pl-ink:#263d5b;--pl-pencil:#49b6e5;--pl-focus:#0879aa;--pl-hand:"Delius Swash Caps","KaiTi","STKaiti","Segoe Print","Microsoft YaHei",sans-serif}
+.pl-stage{font-family:var(--pl-hand);color-scheme:light}
+.pl-stage .pl-header{border-bottom:0}
+.pl-stage .pl-brand{gap:10px;padding:5px 16px;color:var(--pl-ink);background:var(--pl-paper);border:2px solid var(--pl-ink);border-radius:5px 17px 7px 14px / 12px 5px 14px 6px;box-shadow:3px 3px 0 #263d5b33;font-family:var(--pl-hand);font-weight:700;letter-spacing:.08em}
+.pl-stage .pl-sigil{color:#0879aa;font-size:29px;line-height:1}
+.pl-stage .pl-tools{gap:12px}
+.pl-stage .pl-tools :is(button,a){height:34px;min-height:34px;padding:4px 13px;background:var(--pl-paper);color:var(--pl-ink);border:2px solid var(--pl-ink);border-radius:12px 5px 14px 6px;box-shadow:2px 2px 0 #263d5b40;font-size:14px;font-weight:700}
+.pl-stage .pl-tools :is(button,a):hover{background:#d8f2fc;color:var(--pl-ink)}
+.pl-stage :is(.pl-eyebrow,.pl-name,.pl-tag,.pl-description,.pl-detail){font-family:var(--pl-hand);color:var(--pl-ink);letter-spacing:.05em;text-shadow:none}
+.pl-stage .pl-name{font-weight:700;text-decoration:underline;text-decoration-color:var(--pl-pencil);text-decoration-thickness:3px;text-underline-offset:7px;text-decoration-skip-ink:auto}
+.pl-stage .pl-tag{color:#08628a;font-size:18px;font-weight:700}
+.pl-stage .pl-description{font-size:16px;line-height:1.85}
+.pl-stage .pl-detail,.pl-stage .pl-eyebrow{font-size:14px}
+.pl-stage :is(.pl-eyebrow,.pl-name,.pl-tag,.pl-description,.pl-detail)::before{background:radial-gradient(#263d5b0b .7px,transparent .9px) 0 0 / 9px 9px,linear-gradient(110deg,rgba(255,253,247,.97),rgba(246,250,252,.94))}
+.pl-stage :is(#join-game-form,.pl-native-form){background:var(--pl-paper);color:var(--pl-ink);border:2px solid var(--pl-ink);border-top:2px solid var(--pl-ink);border-radius:9px 17px 11px 20px / 16px 8px 18px 9px;box-shadow:5px 6px 0 #263d5b35;font-family:var(--pl-hand)}
+.pl-stage :is(#join-game-form,.pl-native-form)::before{content:"";position:absolute;top:-11px;left:calc(50% - 32px);width:64px;height:20px;background:#9cdef2db;border:1px dashed #263d5b60;transform:rotate(-5deg);pointer-events:none}
+.pl-stage :is(#join-game-form,.pl-native-form) h2{color:var(--pl-ink);font-family:var(--pl-hand);font-size:28px;text-decoration:underline;text-decoration-color:var(--pl-pencil);text-decoration-thickness:4px;text-underline-offset:8px;letter-spacing:.12em}
+.pl-stage .pl-status{color:#465b72;font-size:13px}
+.pl-stage :is(#join-game-form,.pl-native-form) .form-group label.icon{color:var(--pl-ink)}
+.pl-stage :is(#join-game-form,.pl-native-form) :is(select,input){background:#fff;color:var(--pl-ink);border:2px solid #64788d;border-radius:5px 9px 4px 8px;font-family:var(--pl-hand);font-size:14px;color-scheme:light}
+.pl-stage :is(#join-game-form,.pl-native-form) input::placeholder{color:#586b7c;opacity:1}
+.pl-stage :is(#join-game-form,.pl-native-form) select option{background:#fff;color:var(--pl-ink)}
+.pl-stage :is(#join-game-form,.pl-native-form) button{background:var(--pl-pencil);color:#172c43;border:2px solid var(--pl-ink);border-radius:9px 5px 12px 6px;box-shadow:3px 3px 0 var(--pl-ink);font:700 18px var(--pl-hand);letter-spacing:.12em;transition:background .15s,box-shadow .15s}
+.pl-stage :is(#join-game-form,.pl-native-form) button:hover{background:#91d8f3;filter:none}
+.pl-stage :is(#join-game-form,.pl-native-form) button:active{box-shadow:1px 1px 0 var(--pl-ink)}
+.pl-stage :is(#join-game-form,.pl-native-form) button:disabled{opacity:.6;cursor:default}
+.pl-stage .pl-roster-heading>span{display:inline-block;padding:4px 10px;background:var(--pl-paper);color:var(--pl-ink);border-radius:4px 9px 5px 7px;font-size:14px;font-weight:700;box-shadow:2px 2px 0 #263d5b40}
+.pl-stage .pl-roster-heading>span:empty{display:none}
+.pl-stage .pl-card{background:var(--pl-paper);border:2px solid var(--pl-ink);border-radius:7px 12px 5px 10px;box-shadow:3px 4px 0 #263d5b40;filter:none}
+.pl-stage .pl-card-art{inset:6px 6px 38px;background-color:#edf5f7;border-radius:3px 8px 4px 5px}
+.pl-stage .pl-card-label{padding:5px 9px;background:var(--pl-paper);border-top:1px dashed #263d5b60}
+.pl-stage .pl-card-label strong{color:var(--pl-ink);font:700 15px var(--pl-hand)}
+.pl-stage .pl-card-label small{color:#465b72;font:12px var(--pl-hand);line-height:1.4}
+.pl-stage .pl-card[aria-pressed=true]{border-color:#0879aa;box-shadow:0 0 0 2px var(--pl-paper),0 0 0 4px #0879aa,4px 7px 0 #263d5b40;filter:none}
+.pl-stage .pl-card:hover{filter:none;border-color:#0879aa}
+.pl-stage .pl-cards{padding:7px 7px 14px;scrollbar-color:#0879aa transparent}
+.pl-stage :is(.pl-online,.pl-hidden-character)::after{color:#fff;background:var(--pl-ink);border:1px solid #fff;border-radius:4px 7px 3px 6px;font-size:11px}
+.pl-stage .pl-footer{color:var(--pl-ink);text-shadow:0 0 3px #fff,0 0 6px #fff;font-family:var(--pl-hand);font-size:12px}
+.pl-stage :focus-visible{outline:3px solid var(--pl-focus)!important;outline-offset:4px;box-shadow:0 0 0 6px var(--pl-paper)}
+/* Keep all editor controls, resize handles and placeholders functional. */
+.pl-config .pl-editor{font-family:var(--pl-hand)}
+.pl-config :is(.pl-editor-toolbar button,.pl-config-panel button){background:var(--pl-paper);color:var(--pl-ink);border:2px solid var(--pl-ink);border-radius:5px 10px 6px 8px;box-shadow:2px 2px 0 #263d5b30;font-family:var(--pl-hand);font-size:14px}
+.pl-config :is(.pl-editor-toolbar button,.pl-config-panel button):hover{background:#d8f2fc}
+.pl-config .pl-editor-toolbar .pl-publish,.pl-config .pl-editor-toolbar [data-command="snap-grid"][aria-pressed="true"]{background:var(--pl-pencil);color:var(--pl-ink);border-color:var(--pl-ink)}
+.pl-config .pl-editor-toolbar .pl-save-status{background:var(--pl-paper);color:var(--pl-ink);border-radius:4px;padding:4px 8px}
+.pl-config .pl-save-status:empty{display:none}
+.pl-config .pl-config-panel{background:var(--pl-paper);color:var(--pl-ink);border:2px solid var(--pl-ink);border-radius:9px 15px 8px 12px;box-shadow:5px 6px 0 #263d5b40;color-scheme:light}
+.pl-config .pl-config-panel :is(input:not([type=checkbox]),select){background:#fff;color:var(--pl-ink);border:1px solid #64788d;border-radius:4px 7px 3px 6px;color-scheme:light}
+.pl-config .pl-config-panel label{font-size:14px}
+.pl-config .pl-config-panel .pl-config-note{color:#465b72;font-size:12px}
+.pl-config .pl-config-panel a{color:#08628a}
+.pl-config .pl-config-panel details{border-color:#263d5b50}
+.pl-config .pl-editor-help{background:var(--pl-paper);color:var(--pl-ink);border:1px dashed var(--pl-ink);font-size:12px}
+.pl-config :focus-visible{outline:3px solid var(--pl-focus)!important}
+.pl-config .pl-editor-canvas [data-placeholder]:empty::before{position:static;display:block;mask-image:none;background:var(--pl-paper);color:var(--pl-ink);border:1px dashed var(--pl-ink);font:14px var(--pl-hand)}
+.pl-config .pl-editor-canvas [data-pl-item][contenteditable]{background:#16273aed;color:#fffdf7;outline-color:var(--pl-pencil)!important}
+.pl-config .pl-editor-canvas .pl-native-form :disabled{opacity:1}
