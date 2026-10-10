@@ -1,8 +1,8 @@
 {
   "id": "portrait-login",
   "title": "冒险者之门 · 角色立绘登录",
-  "description": "FVTT 13.351 手绘活页笔记本登录界面：角色卡、翻页动画、GM 可视化编辑及按世界启用。首次安装需运行接入工具。",
-  "version": "1.1.0",
+  "description": "FVTT 13.351 手绘活页笔记本登录界面。Windows 桌面版双击接入，无需额外安装 Node.js。",
+  "version": "1.1.1",
   "compatibility": {
     "minimum": "13.351",
     "maximum": "13",
@@ -22,5 +22,5 @@
   "persistentStorage": true,
   "url": "https://github.com/DMHPJ/fvtt-portrait-login",
   "manifest": "https://raw.githubusercontent.com/DMHPJ/fvtt-portrait-login/main/module.json",
-  "download": "https://raw.githubusercontent.com/DMHPJ/fvtt-portrait-login/main/releases/portrait-login-v1.1.0-fvtt13.351.zip"
+  "download": "https://raw.githubusercontent.com/DMHPJ/fvtt-portrait-login/main/releases/portrait-login-v1.1.1-fvtt13.351.zip"
 }

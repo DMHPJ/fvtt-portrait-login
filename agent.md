@@ -4,7 +4,7 @@
 
 ## 项目定位
 
-- 模组名称：冒险者之门 · 角色立绘登录；ID：`portrait-login`；当前版本：`1.1.0`。
+- 模组名称：冒险者之门 · 角色立绘登录；ID：`portrait-login`；当前版本：`1.1.1`。
 - 当前目标版本为 Foundry VTT **13.351**。接入工具会检查程序 `package.json` 中的 `name`、`release.generation` 和 `release.build`，拒绝其他版本。
 - 这是直接运行的 JavaScript ES Modules 与 CSS 项目，没有 `package.json`、依赖安装流程、打包步骤或第三方测试框架；接入器回归测试使用 `node --test tests/world-scope.test.mjs`。
 - 世界内配置界面和未登录时的主题是两个入口。`module.json` 只声明 `settings.mjs` 与 `settings.css`；登录页通过 `tools/install.mjs` 修改 Foundry 的 `templates/views/join.hbs` 接入。
@@ -100,3 +100,6 @@ node --check tools/install.mjs
 ## 1.1.0 布局约定
 
 笔记本内文字及顶部标语固定排版，不应用旧独立位置；保持双击编辑。初始选择为空，关闭资料页不清空账户。默认背景来自 background 或原生背景容器；idleHero 留空隐藏，idleHeroLayout 独立保存。切换动画取消前一动画并遵循减少动态效果。新增样式包括 doodle.css 与 notebook.css。
+
+## Windows 双击入口
+根目录两个 cmd 调用 tools/setup-windows.ps1；后者必须使用 UTF-8 BOM 以兼容 Windows PowerShell 5.1。借用 Foundry Electron 的 Node 模式，运行后检查文件状态，保留底层 install.mjs 的全部保护。不在浏览器内尝试写程序文件。

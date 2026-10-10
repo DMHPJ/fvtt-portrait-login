@@ -1,8 +1,8 @@
 # 冒险者之门 · 手绘笔记本登录
 
-版本 **1.1.0**，仅适配 **Foundry VTT 13.351**。模组 ID：`portrait-login`。
+版本 **1.1.1**，仅适配 **Foundry VTT 13.351**。模组 ID：`portrait-login`。
 
-[下载 v1.1.0 安装包](releases/portrait-login-v1.1.0-fvtt13.351.zip) · [更新说明](更新说明.md)
+[下载 v1.1.1 安装包](releases/portrait-login-v1.1.1-fvtt13.351.zip) · [更新说明](更新说明.md)
 
 ## 功能
 
@@ -18,25 +18,24 @@
 
 1. 停止 Foundry。把 ZIP 内的 `portrait-login` 文件夹放到 `Data/modules/`，确认存在 `Data/modules/portrait-login/module.json`。
 2. 升级时先备份，合并覆盖代码，**保留 `storage/` 和世界数据**。
-3. 在终端运行（需 Node.js，替换实际路径）：
+3. **Windows 桌面版：双击模组文件夹中的 `安装登录界面.cmd`**，在 Windows 管理员授权提示中选“是”。无需安装 Node.js、npm 或其他软件，也无需输入命令。
+4. 工具自动查找常见安装位置；找不到或存在多个位置时，请选择含 `Foundry Virtual Tabletop.exe` 的文件夹。只支持 13.351。
+5. 看到“安装完成”后启动 Foundry，在目标世界启用模组。
+6. GM 打开配置界面，编辑后“保存并发布”。返回登录页，按 Ctrl+F5 刷新。
+
+升级保留 `storage/`；已接入的 1.1.0 用户无需重做接入，合并覆盖模组文件即可。工具重复运行不会重复注入。
+
+**Windows 还原：**关闭 Foundry，双击 `还原原生登录.cmd`，然后重新启动。只移除本模组接入，保留其他改动和角色配置。
+
+这是一种无需额外运行环境的双击接入方式，仍需对 Foundry 登录模板及路由进行一次修改，自动保留备份。普通世界模组不会在未登录页面执行，因此仅在模组管理中启用不能代替首次接入。安装器会检查实际文件状态，失败时不宣称成功。若软件包禁用了 Electron 的 Node 模式，工具会报错；请保留输出。
+
+**Linux 或纯 Node 服务端：**继续使用启动 Foundry 时已有的 Node.js 执行下方命令，无需 npm 或第三方依赖：
 
 ```sh
 node "<Data目录>/modules/portrait-login/tools/install.mjs" --app "<Foundry程序目录>" --install
 ```
 
-程序目录是含 `package.json`、`main.mjs`、`templates` 和 `dist` 的 Foundry 程序目录，不是 Data 目录。Windows 桌面版通常为 `C:/Program Files/Foundry Virtual Tabletop/resources/app`，写入此处需要管理员权限。
-
-4. 完全重启 Foundry，在目标世界启用模组。
-5. GM 进入“配置设置 → 模组设置 → 配置角色立绘与账户”，编辑后点击“保存并发布”。刷新 `/join` 查看；升级后按 Ctrl+F5。
-
-**仅在模组管理中安装或更新，不会自动执行接入工具。** 本工具仅适配 13.351，修改登录模板及登录路由，并为两者分别创建 `.portrait-login-backup`。旧版接入可直接通过新版 `--install` 升级，不重复注入。
-
-```sh
-node "<Data目录>/modules/portrait-login/tools/install.mjs" --app "<Foundry程序目录>" --check
-node "<Data目录>/modules/portrait-login/tools/install.mjs" --app "<Foundry程序目录>" --restore
-```
-
-卸载前停止 Foundry，运行 `--restore`，再重启。恢复只移除本模组接入，并保留其他改动和备份。升级 Foundry 后需重新确认兼容性，不应直接绕过版本检查。
+将 `--install` 改为 `--check` 可检查，改为 `--restore` 可还原。Windows 程序目录通常是 `C:/Program Files/Foundry Virtual Tabletop/resources/app`。升级 Foundry 后须重新确认兼容性，不要绕过版本检查。
 
 ## 编辑方式
 
